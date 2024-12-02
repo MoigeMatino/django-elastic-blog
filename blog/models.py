@@ -24,7 +24,7 @@ ARTICLE_TYPES = [
 class Article(models.Model):
     title = models.CharField(max_length=256)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    article_type = models.CharField(max_length=2, choices=ARTICLE_TYPES, default="UN")
+    type = models.CharField(max_length=2, choices=ARTICLE_TYPES, default="UN")
     categories = models.ManyToManyField(to=Category, blank=True, related_name="categories")
     content = models.TextField()
     created_datetime = models.DateTimeField(auto_now_add=True)

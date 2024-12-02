@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from elasticsearch import Elasticsearch
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,8 +84,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'mydatabase'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),  # 'db' is the service name in Docker Compose
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -134,13 +140,27 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 25
 }
 
-# Elasticsearch
-# https://django-elasticsearch-dsl.readthedocs.io/en/latest/settings.html
+
+# Elasticsearch configuration
+ELASTICSEARCH_URL = os.getenv("ELASTICSEARCH_URL", "http://elasticsearch:9300")
+
+# Initialize Elasticsearch client
+es_client = Elasticsearch(
+    [ELASTICSEARCH_URL],
+    http_auth=(
+        os.getenv("ELASTICSEARCH_USER", ""),
+        os.getenv("ELASTICSEARCH_PASSWORD", ""),
+    ),
+    verify_certs=os.getenv("VERIFY_CERTS", "False") == "True",
+)
 
 ELASTICSEARCH_DSL = {
     "default": {
-        "hosts": "https://localhost:9200",
-        "http_auth": ("elastic", "elasticpwd"),
-        # "ca_certs": "PATH_TO_http_ca.crt",
+        "hosts": ELASTICSEARCH_URL,
+        "http_auth": (
+            os.getenv("ELASTICSEARCH_USER", ""),
+            os.getenv("ELASTICSEARCH_PASSWORD", ""),
+        ),
+        "verify_certs": os.getenv("VERIFY_CERTS", "False") == "True",
     }
 }
