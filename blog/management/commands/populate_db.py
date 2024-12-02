@@ -39,7 +39,7 @@ class Command(BaseCommand):
         website_article = Article.objects.create(
             title="How to code and deploy a website?",
             author=mike,
-            article_type="TU",
+            type="TU",
             content="There are numerous ways of how you can deploy a website...",
         )
         website_article.save()
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         google_article = Article.objects.create(
             title="How to improve your Google rating?",
             author=jess,
-            article_type="TU",
+            type="TU",
             content="Firstly, add the correct SEO tags...",
         )
         google_article.save()
@@ -57,7 +57,7 @@ class Command(BaseCommand):
         programming_article = Article.objects.create(
             title="Which programming language is the best?",
             author=jess,
-            article_type="RS",
+            type="RS",
             content="The best programming languages are:\n1) Python\n2) Java\n3) C/C++...",
         )
         programming_article.save()
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         ubuntu_article = Article.objects.create(
             title="Installing the latest version of Ubuntu",
             author=johnny,
-            article_type="TU",
+            type="TU",
             content="In this tutorial, we'll take a look at how to setup the latest version of Ubuntu. Ubuntu "
                     "(/ʊˈbʊntuː/ is a Linux distribution based on Debian and composed mostly of free and open-source"
                     " software. Ubuntu is officially released in three editions: Desktop, Server, and Core for "
@@ -78,7 +78,7 @@ class Command(BaseCommand):
         django_article = Article.objects.create(
             title="Django REST Framework and Elasticsearch",
             author=johnny,
-            article_type="TU",
+            type="TU",
             content="In this tutorial, we'll look at how to integrate Django REST Framework with Elasticsearch. "
             "We'll use Django to model our data and DRF to serialize and serve it. Finally, we'll index the data "
             "with Elasticsearch and make it searchable.",
